@@ -5,6 +5,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
+npm run build
+# then
 npm run dev
 # or
 yarn dev
@@ -36,3 +38,4 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 #   T a s k - M a n a g e m e n t - A p p l i c a t i o n  
  
+
