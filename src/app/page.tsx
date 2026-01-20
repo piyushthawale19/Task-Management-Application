@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { CheckCircle2, Zap, Shield, BarChart3, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LoadingLink } from "@/components/ui/loading-link";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -21,7 +22,7 @@ const staggerContainer = {
 
 function Navbar() {
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -40,14 +41,14 @@ function Navbar() {
             <Link href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How it works</Link>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/login">
+            <LoadingLink href="/login">
               <Button variant="ghost" className="text-sm">Sign in</Button>
-            </Link>
-            <Link href="/register">
+            </LoadingLink>
+            <LoadingLink href="/register">
               <Button className="text-sm bg-gradient-to-r from-primary to-purple-600 hover:opacity-90 transition-opacity shadow-lg shadow-primary/30">
                 Get started
               </Button>
-            </Link>
+            </LoadingLink>
           </div>
         </div>
       </div>
@@ -61,23 +62,23 @@ function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "3s" }} />
-      
+
       <div className="relative max-w-7xl mx-auto px-6 py-24">
-        <motion.div 
+        <motion.div
           className="text-center max-w-4xl mx-auto"
           variants={staggerContainer}
           initial="initial"
           animate="animate"
         >
-          <motion.div 
+          <motion.div
             variants={fadeInUp}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8"
           >
             <Sparkles className="w-4 h-4" />
             <span>Introducing TaskFlow 2.0</span>
           </motion.div>
-          
-          <motion.h1 
+
+          <motion.h1
             variants={fadeInUp}
             className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight"
           >
@@ -87,32 +88,32 @@ function HeroSection() {
               amplify your focus
             </span>
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             variants={fadeInUp}
             className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            The modern task management app that helps teams and individuals stay organized, 
+            The modern task management app that helps teams and individuals stay organized,
             focused, and productive. Simple, beautiful, and powerful.
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             variants={fadeInUp}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link href="/register">
+            <LoadingLink href="/register">
               <Button size="lg" className="text-base px-8 h-14 bg-gradient-to-r from-primary to-purple-600 hover:opacity-90 transition-all shadow-xl shadow-primary/30">
                 Start for free
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-            </Link>
-            <Link href="/dashboard">
+            </LoadingLink>
+            <LoadingLink href="/dashboard">
               <Button size="lg" variant="outline" className="text-base px-8 h-14 hover:bg-accent transition-all">
                 View demo
               </Button>
-            </Link>
+            </LoadingLink>
           </motion.div>
-          
+
           <motion.div variants={fadeInUp} className="mt-16 relative">
             <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-purple-500/20 to-primary/20 rounded-3xl blur-2xl" />
             <div className="relative glass-card rounded-2xl overflow-hidden shadow-2xl">
@@ -137,10 +138,10 @@ function HeroSection() {
 }
 
 function TaskPreviewItem({ title, status, priority, delay }: { title: string; status: string; priority: string; delay: number }) {
-  const statusClass = status === "completed" ? "bg-green-500 border-green-500" : 
-                      status === "in_progress" ? "border-primary" : "border-muted-foreground";
+  const statusClass = status === "completed" ? "bg-green-500 border-green-500" :
+    status === "in_progress" ? "border-primary" : "border-muted-foreground";
   const priorityClass = priority === "high" ? "bg-red-100 text-red-700" :
-                        priority === "medium" ? "bg-yellow-100 text-yellow-700" : "bg-green-100 text-green-700";
+    priority === "medium" ? "bg-yellow-100 text-yellow-700" : "bg-green-100 text-green-700";
 
   return (
     <motion.div
@@ -174,7 +175,7 @@ function FeaturesSection() {
     <section id="features" className="py-32 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/30 to-transparent" />
       <div className="relative max-w-7xl mx-auto px-6">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -223,7 +224,7 @@ function HowItWorksSection() {
   return (
     <section id="how-it-works" className="py-32">
       <div className="max-w-7xl mx-auto px-6">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -260,7 +261,7 @@ function CTASection() {
   return (
     <section className="py-32">
       <div className="max-w-7xl mx-auto px-6">
-        <motion.div 
+        <motion.div
           className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-purple-600 to-primary p-12 md:p-20 text-center"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -273,12 +274,12 @@ function CTASection() {
             <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
               Join thousands of users who have transformed their workflow with TaskFlow.
             </p>
-            <Link href="/register">
+            <LoadingLink href="/register">
               <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-base px-8 h-14 shadow-xl">
                 Start free trial
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-            </Link>
+            </LoadingLink>
           </div>
         </motion.div>
       </div>
@@ -297,7 +298,7 @@ function Footer() {
             </div>
             <span className="font-semibold">TaskFlow</span>
           </div>
-          <p className="text-sm text-muted-foreground">2024 TaskFlow. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">2026 Piyush Thawale. All rights reserved.</p>
         </div>
       </div>
     </footer>

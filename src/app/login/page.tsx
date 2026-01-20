@@ -11,6 +11,7 @@ import { CheckCircle2, Eye, EyeOff, Loader2, AlertCircle, ArrowLeft } from "luci
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoadingLink } from "@/components/ui/loading-link";
 import { loginUser } from "@/lib/task-store";
 
 const loginSchema = z.object({
@@ -39,7 +40,6 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
       loginUser(data.email, data.password);
       router.push("/dashboard");
     } catch (err) {
@@ -59,12 +59,12 @@ export default function LoginPage() {
         </div>
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-white/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
-        
+
         <div className="relative z-10 flex flex-col justify-center px-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             <div className="flex items-center gap-3 mb-8">
               <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -83,14 +83,14 @@ export default function LoginPage() {
       </div>
 
       <div className="flex-1 flex items-center justify-center p-8">
-        <motion.div 
+        <motion.div
           className="w-full max-w-md"
-          initial={{ opacity: 0, x: 20 }}
+          initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }}
         >
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -113,8 +113,9 @@ export default function LoginPage() {
 
           {error && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
               className="flex items-center gap-3 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive mb-6"
             >
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -130,18 +131,18 @@ export default function LoginPage() {
                   id="email"
                   type="email"
                   placeholder="you@example.com"
-                  className={`h-12 px-4 transition-all duration-200 ${
-                    errors.email 
-                      ? "border-destructive focus:ring-destructive/30" 
-                      : "focus:ring-primary/30 focus:border-primary"
-                  }`}
+                  className={`h-12 px-4 transition-all duration-200 ${errors.email
+                    ? "border-destructive focus:ring-destructive/30"
+                    : "focus:ring-primary/30 focus:border-primary"
+                    }`}
                   {...register("email")}
                 />
               </div>
               {errors.email && (
-                <motion.p 
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.15 }}
                   className="text-sm text-destructive flex items-center gap-1"
                 >
                   <AlertCircle className="w-3 h-3" />
@@ -157,11 +158,10 @@ export default function LoginPage() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className={`h-12 px-4 pr-12 transition-all duration-200 ${
-                    errors.password 
-                      ? "border-destructive focus:ring-destructive/30" 
-                      : "focus:ring-primary/30 focus:border-primary"
-                  }`}
+                  className={`h-12 px-4 pr-12 transition-all duration-200 ${errors.password
+                    ? "border-destructive focus:ring-destructive/30"
+                    : "focus:ring-primary/30 focus:border-primary"
+                    }`}
                   {...register("password")}
                 />
                 <button
@@ -173,9 +173,10 @@ export default function LoginPage() {
                 </button>
               </div>
               {errors.password && (
-                <motion.p 
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.15 }}
                   className="text-sm text-destructive flex items-center gap-1"
                 >
                   <AlertCircle className="w-3 h-3" />
@@ -202,9 +203,9 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-muted-foreground mt-8">
             Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-primary hover:underline font-medium">
+            <LoadingLink href="/register" className="text-primary hover:underline font-medium">
               Sign up
-            </Link>
+            </LoadingLink>
           </p>
         </motion.div>
       </div>

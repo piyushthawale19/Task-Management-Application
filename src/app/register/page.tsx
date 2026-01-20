@@ -11,6 +11,7 @@ import { CheckCircle2, Eye, EyeOff, Loader2, AlertCircle, ArrowLeft, Check } fro
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoadingLink } from "@/components/ui/loading-link";
 import { registerUser } from "@/lib/task-store";
 
 const registerSchema = z.object({
@@ -60,7 +61,6 @@ export default function RegisterPage() {
     setError(null);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
       registerUser(data.email, data.name, data.password);
       router.push("/dashboard");
     } catch (err) {
@@ -81,12 +81,12 @@ export default function RegisterPage() {
         </div>
         <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-white/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
-        
+
         <div className="relative z-10 flex flex-col justify-center px-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             <div className="flex items-center gap-3 mb-8">
               <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -100,14 +100,14 @@ export default function RegisterPage() {
             <p className="text-xl text-white/80 max-w-md">
               Create an account and discover a better way to manage your tasks and projects.
             </p>
-            
+
             <div className="mt-12 space-y-4">
               {["Free forever plan available", "No credit card required", "Setup in under 2 minutes"].map((item, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 + i * 0.1 }}
+                  transition={{ delay: 0.1 + i * 0.05, duration: 0.2 }}
                   className="flex items-center gap-3 text-white/90"
                 >
                   <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
@@ -122,14 +122,14 @@ export default function RegisterPage() {
       </div>
 
       <div className="flex-1 flex items-center justify-center p-8 overflow-y-auto">
-        <motion.div 
+        <motion.div
           className="w-full max-w-md"
-          initial={{ opacity: 0, x: 20 }}
+          initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }}
         >
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -152,8 +152,9 @@ export default function RegisterPage() {
 
           {error && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
               className="flex items-center gap-3 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive mb-6"
             >
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -168,17 +169,17 @@ export default function RegisterPage() {
                 id="name"
                 type="text"
                 placeholder="John Doe"
-                className={`h-12 px-4 transition-all duration-200 ${
-                  errors.name 
-                    ? "border-destructive focus:ring-destructive/30" 
-                    : "focus:ring-primary/30 focus:border-primary"
-                }`}
+                className={`h-12 px-4 transition-all duration-200 ${errors.name
+                  ? "border-destructive focus:ring-destructive/30"
+                  : "focus:ring-primary/30 focus:border-primary"
+                  }`}
                 {...register("name")}
               />
               {errors.name && (
-                <motion.p 
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.15 }}
                   className="text-sm text-destructive flex items-center gap-1"
                 >
                   <AlertCircle className="w-3 h-3" />
@@ -193,17 +194,17 @@ export default function RegisterPage() {
                 id="email"
                 type="email"
                 placeholder="you@example.com"
-                className={`h-12 px-4 transition-all duration-200 ${
-                  errors.email 
-                    ? "border-destructive focus:ring-destructive/30" 
-                    : "focus:ring-primary/30 focus:border-primary"
-                }`}
+                className={`h-12 px-4 transition-all duration-200 ${errors.email
+                  ? "border-destructive focus:ring-destructive/30"
+                  : "focus:ring-primary/30 focus:border-primary"
+                  }`}
                 {...register("email")}
               />
               {errors.email && (
-                <motion.p 
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.15 }}
                   className="text-sm text-destructive flex items-center gap-1"
                 >
                   <AlertCircle className="w-3 h-3" />
@@ -219,11 +220,10 @@ export default function RegisterPage() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Create a strong password"
-                  className={`h-12 px-4 pr-12 transition-all duration-200 ${
-                    errors.password 
-                      ? "border-destructive focus:ring-destructive/30" 
-                      : "focus:ring-primary/30 focus:border-primary"
-                  }`}
+                  className={`h-12 px-4 pr-12 transition-all duration-200 ${errors.password
+                    ? "border-destructive focus:ring-destructive/30"
+                    : "focus:ring-primary/30 focus:border-primary"
+                    }`}
                   {...register("password")}
                 />
                 <button
@@ -234,23 +234,22 @@ export default function RegisterPage() {
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
-              
+
               {password && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
+                  transition={{ duration: 0.2 }}
                   className="grid grid-cols-2 gap-2 pt-2"
                 >
                   {passwordRequirements.map((req, i) => (
-                    <div 
+                    <div
                       key={i}
-                      className={`flex items-center gap-2 text-xs ${
-                        req.regex.test(password) ? "text-green-600" : "text-muted-foreground"
-                      }`}
+                      className={`flex items-center gap-2 text-xs ${req.regex.test(password) ? "text-green-600" : "text-muted-foreground"
+                        }`}
                     >
-                      <div className={`w-4 h-4 rounded-full flex items-center justify-center ${
-                        req.regex.test(password) ? "bg-green-100" : "bg-muted"
-                      }`}>
+                      <div className={`w-4 h-4 rounded-full flex items-center justify-center ${req.regex.test(password) ? "bg-green-100" : "bg-muted"
+                        }`}>
                         {req.regex.test(password) && <Check className="w-3 h-3" />}
                       </div>
                       {req.text}
@@ -267,11 +266,10 @@ export default function RegisterPage() {
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm your password"
-                  className={`h-12 px-4 pr-12 transition-all duration-200 ${
-                    errors.confirmPassword 
-                      ? "border-destructive focus:ring-destructive/30" 
-                      : "focus:ring-primary/30 focus:border-primary"
-                  }`}
+                  className={`h-12 px-4 pr-12 transition-all duration-200 ${errors.confirmPassword
+                    ? "border-destructive focus:ring-destructive/30"
+                    : "focus:ring-primary/30 focus:border-primary"
+                    }`}
                   {...register("confirmPassword")}
                 />
                 <button
@@ -283,9 +281,10 @@ export default function RegisterPage() {
                 </button>
               </div>
               {errors.confirmPassword && (
-                <motion.p 
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.15 }}
                   className="text-sm text-destructive flex items-center gap-1"
                 >
                   <AlertCircle className="w-3 h-3" />
@@ -312,9 +311,9 @@ export default function RegisterPage() {
 
           <p className="text-center text-sm text-muted-foreground mt-8">
             Already have an account?{" "}
-            <Link href="/login" className="text-primary hover:underline font-medium">
+            <LoadingLink href="/login" className="text-primary hover:underline font-medium">
               Sign in
-            </Link>
+            </LoadingLink>
           </p>
         </motion.div>
       </div>

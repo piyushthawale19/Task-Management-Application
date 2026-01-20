@@ -22,6 +22,7 @@ import {
   ListTodo,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -103,16 +104,14 @@ function TaskCard({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.2 }}
-      className={`group glass-card p-5 rounded-xl hover-lift cursor-pointer ${
-        task.status === "completed" ? "opacity-70" : ""
-      }`}
+      className={`group glass-card p-5 rounded-xl hover-lift cursor-pointer ${task.status === "completed" ? "opacity-70" : ""
+        }`}
     >
       <div className="flex items-start gap-4">
         <button
           onClick={() => onStatusChange(nextStatus[task.status])}
-          className={`mt-0.5 w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-200 ${
-            statusColors[task.status]
-          }`}
+          className={`mt-0.5 w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-200 ${statusColors[task.status]
+            }`}
         >
           {task.status === "completed" && (
             <CheckCircle2 className="w-3 h-3 text-white" />
@@ -125,11 +124,10 @@ function TaskCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <h3
-              className={`font-medium leading-snug ${
-                task.status === "completed"
-                  ? "line-through text-muted-foreground"
-                  : ""
-              }`}
+              className={`font-medium leading-snug ${task.status === "completed"
+                ? "line-through text-muted-foreground"
+                : ""
+                }`}
             >
               {task.title}
             </h3>
@@ -167,9 +165,8 @@ function TaskCard({
 
           <div className="flex items-center gap-3 mt-3 flex-wrap">
             <span
-              className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                priorityColors[task.priority]
-              }`}
+              className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${priorityColors[task.priority]
+                }`}
             >
               {task.priority}
             </span>
@@ -215,6 +212,7 @@ function TaskModal({
   const [status, setStatus] = useState<TaskStatus>("todo");
   const [dueDate, setDueDate] = useState("");
   const [errors, setErrors] = useState<{ title?: string }>({});
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -233,12 +231,13 @@ function TaskModal({
     setErrors({});
   }, [task, isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) {
       setErrors({ title: "Title is required" });
       return;
     }
+    setIsSaving(true);
     onSave({
       title: title.trim(),
       description: description.trim(),
@@ -246,6 +245,7 @@ function TaskModal({
       status,
       dueDate: dueDate || undefined,
     });
+    setIsSaving(false);
     onClose();
   };
 
@@ -335,15 +335,17 @@ function TaskModal({
           </div>
 
           <div className="flex justify-end gap-3 pt-2">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={onClose} disabled={isSaving}>
               Cancel
             </Button>
-            <Button
+            <LoadingButton
               type="submit"
+              loading={isSaving}
+              loadingText={task ? "Saving..." : "Creating..."}
               className="bg-gradient-to-r from-primary to-purple-600 hover:opacity-90 shadow-lg shadow-primary/30"
             >
               {task ? "Save Changes" : "Create Task"}
-            </Button>
+            </LoadingButton>
           </div>
         </form>
       </DialogContent>
@@ -394,6 +396,7 @@ export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
@@ -417,6 +420,7 @@ export default function DashboardPage() {
   }, [loadData]);
 
   const handleLogout = () => {
+    setIsLoggingOut(true);
     clearUser();
     router.push("/");
   };
@@ -505,14 +509,15 @@ export default function DashboardPage() {
               <span className="text-sm text-muted-foreground">
                 Welcome, <span className="font-medium text-foreground">{user?.name}</span>
               </span>
-              <Button
+              <LoadingButton
                 variant="ghost"
                 size="icon"
                 onClick={handleLogout}
+                loading={isLoggingOut}
                 className="text-muted-foreground hover:text-foreground"
               >
                 <LogOut className="w-5 h-5" />
-              </Button>
+              </LoadingButton>
             </div>
           </div>
         </div>
